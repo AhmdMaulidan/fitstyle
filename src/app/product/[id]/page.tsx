@@ -13,7 +13,8 @@ import {
   Heart,
   ChevronRight,
   Info,
-  Calendar
+  Calendar,
+  Plus
 } from "lucide-react";
 import Link from "next/link";
 import { notFound, useRouter } from "next/navigation";
@@ -38,8 +39,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [isLiked, setIsLiked] = useState(false);
 
   if (!product) return notFound();
-
-  const handleAddToCart = () => {
+  
+  const handleBuyNow = () => {
     if (!state.isLoggedIn) {
       showToast("Silakan masuk terlebih dahulu untuk membeli atau menyewa.");
       router.push(`/auth/login?redirect=/product/${product.id}`);
@@ -63,6 +64,25 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     // Set as pending order for checkout page
     setPendingOrder([checkoutItem]);
     router.push("/checkout");
+  };
+
+  const handleAddToCart = () => {
+    if (!state.isLoggedIn) {
+      showToast("Silakan masuk terlebih dahulu untuk menambah ke keranjang.");
+      router.push(`/auth/login?redirect=/product/${product.id}`);
+      return;
+    }
+
+    if (!selectedSize && product.category !== "custom") {
+      showToast("Silakan pilih ukuran terlebih dahulu!");
+      return;
+    }
+
+    const itemType = product.category === "rent" ? "rent" : "buy";
+    const rentalDays = product.category === "rent" ? (isCustomDuration ? parseInt(customDays) || 3 : selectedDuration) : undefined;
+    
+    addToCart(product, selectedSize || "Custom", itemType, rentalDays);
+    showToast(`${product.name} telah ditambahkan ke keranjang! 🛍️`);
   };
 
   const currentDays = isCustomDuration ? parseInt(customDays) || 3 : selectedDuration;
@@ -262,7 +282,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             {/* CTA Actions */}
             <div className="flex flex-col sm:flex-row gap-4 mb-10 pt-4 border-t border-[var(--subtle-border)]">
               <button 
-                onClick={handleAddToCart}
+                onClick={handleBuyNow}
                 className="flex-1 btn-primary py-5 flex items-center justify-center gap-3 active:scale-95"
               >
                 {product.category === "custom" ? (
@@ -273,6 +293,18 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   <> <ShoppingBag className="w-5 h-5" /> Beli Sekarang </>
                 )}
               </button>
+
+              {product.category !== "custom" && (
+                <button 
+                  onClick={handleAddToCart}
+                  className="px-8 py-5 glass hover:bg-brand-500/10 text-brand-500 dark:text-brand-400 rounded-2xl transition-all border border-brand-500/20 active:scale-95 flex items-center justify-center gap-2 font-bold"
+                  title="Tambah ke Keranjang"
+                >
+                  <Plus className="w-5 h-5" />
+                  <ShoppingBag className="w-5 h-5" />
+                </button>
+              )}
+
               <button className="px-6 py-5 glass hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-secondary)] rounded-2xl transition-all active:scale-95">
                 <Share2 className="w-5 h-5" />
               </button>
