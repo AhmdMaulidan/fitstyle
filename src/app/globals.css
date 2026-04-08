@@ -1,0 +1,192 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+  
+  /* Brand colors persist in both modes */
+  --color-brand-50: #fdf2ff;
+  --color-brand-100: #f5e0ff;
+  --color-brand-200: #ebbfff;
+  --color-brand-300: #d98ef8;
+  --color-brand-400: #c15ef0;
+  --color-brand-500: #a435dc;
+  --color-brand-600: #8b25bb;
+  --color-brand-700: #71199a;
+  --color-brand-800: #5d157d;
+  --color-brand-900: #4e1668;
+  --color-brand-950: #330047;
+
+  --color-accent-400: #f9a825;
+  --color-accent-500: #f57f17;
+}
+
+@layer base {
+  :root {
+    --bg-primary: #fcfcfd;
+    --bg-surface: #ffffff;
+    --text-primary: #1a1a2e;
+    --text-secondary: #4a4a5a;
+    --text-muted: #6b7280;
+    --text-faint: #9ca3af;
+    --border-primary: rgba(0, 0, 0, 0.15);
+    --glass-bg: rgba(255, 255, 255, 0.92);
+    --glass-border: rgba(0, 0, 0, 0.12);
+    --glass-light-bg: rgba(0, 0, 0, 0.04);
+    --glass-light-border: rgba(0, 0, 0, 0.08);
+    --footer-bg: #f8f7fc;
+    --footer-heading: #1a1a2e;
+    --footer-text: #4a4a5a;
+    --footer-muted: #6b7280;
+    --surface-card-bg: rgba(0, 0, 0, 0.02);
+    --surface-border: rgba(0, 0, 0, 0.08);
+    --subtle-bg: rgba(0, 0, 0, 0.04);
+    --subtle-border: rgba(0, 0, 0, 0.08);
+    --color-surface-border: rgba(0, 0, 0, 0.08);
+  }
+
+  /* Force dark as default if class is present or system pref is dark */
+  .dark {
+    --bg-primary: #0e0a14;
+    --bg-surface: #1a1226;
+    --text-primary: #f3f0f8;
+    --text-secondary: #a197b0;
+    --text-muted: #7a7090;
+    --text-faint: #5a5070;
+    --border-primary: #2e1f42;
+    --glass-bg: rgba(26, 18, 38, 0.7);
+    --glass-border: rgba(161, 53, 220, 0.18);
+    --glass-light-bg: rgba(255, 255, 255, 0.05);
+    --glass-light-border: rgba(255, 255, 255, 0.08);
+    --footer-bg: #0a0710;
+    --footer-heading: #f3f0f8;
+    --footer-text: #a197b0;
+    --footer-muted: #6b6080;
+    --surface-card-bg: rgba(255, 255, 255, 0.03);
+    --surface-border: rgba(255, 255, 255, 0.05);
+    --subtle-bg: rgba(255, 255, 255, 0.05);
+    --subtle-border: rgba(255, 255, 255, 0.08);
+    --color-surface-border: rgba(255, 255, 255, 0.05);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .glass-light {
+    background: var(--glass-light-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-light-border);
+  }
+
+  .gradient-brand {
+    background: linear-gradient(135deg, #a435dc 0%, #6c1ab0 50%, #3d0d7a 100%);
+  }
+
+  .gradient-text {
+    background: linear-gradient(90deg, #d98ef8, #f9a825);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .card-hover {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(164, 53, 220, 0.15);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #a435dc, #6c1ab0);
+    color: white;
+    border-radius: 0.75rem;
+    padding: 0.625rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 20px rgba(164, 53, 220, 0.3);
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #b84af0, #7d22c5);
+    box-shadow: 0 6px 28px rgba(164, 53, 220, 0.45);
+    transform: translateY(-1px);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-outline {
+    border: 1.5px solid rgba(164, 53, 220, 0.6);
+    color: var(--color-brand-500);
+    border-radius: 0.75rem;
+    padding: 0.625rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  .btn-outline:hover {
+    background: rgba(164, 53, 220, 0.12);
+    border-color: #a435dc;
+  }
+
+  .tag-buy    { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 12px rgba(59,130,246,0.2); }
+  .tag-rent   { background: linear-gradient(135deg, #10b981, #059669); color: white; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 12px rgba(16,185,129,0.2); }
+  .tag-custom { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 12px rgba(245,158,11,0.2); }
+  .tag-new    { background: linear-gradient(135deg, #a435dc, #7c22c5); color: white; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 12px rgba(164,53,220,0.2); }
+
+  .tag-backplate {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 2rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar { width: 4px; height: 4px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(164,53,220,0.4); border-radius: 99px; }
+}
+
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity:0; }
+  to   { opacity:1; }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to   { background-position:  200% 0; }
+}
+@keyframes pulse-glow {
+  0%,100% { box-shadow: 0 0 20px rgba(164,53,220,0.3); }
+  50%      { box-shadow: 0 0 40px rgba(164,53,220,0.6); }
+}
+
+.animate-fade-in-up { animation: fadeInUp 0.5s ease both; }
+.animate-fade-in    { animation: fadeIn    0.4s ease both; }
+.animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+
